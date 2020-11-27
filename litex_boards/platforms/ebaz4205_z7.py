@@ -42,15 +42,14 @@ _ps7_io = [
     ),
 ]
 
-# _usb_uart_pmod_io = [
-#     # USB-UART PMOD on JB:
-#     # - https://store.digilentinc.com/pmod-usbuart-usb-to-uart-interface/
-#     ("usb_uart", 0,
-#         Subsignal("tx", Pins("pmodb:1")),
-#         Subsignal("rx", Pins("pmodb:2")),
-#         IOStandard("LVCMOS33")
-#     ),
-# ]
+_uart_io = [
+    # UART on DATA1 Connector
+    ("data1_uart", 0,
+        Subsignal("tx", Pins("data1:0")),
+        Subsignal("rx", Pins("data1:1")),
+        IOStandard("LVCMOS33")
+    ),
+]
 
 # Connectors ---------------------------------------------------------------------------------------
 
@@ -69,7 +68,7 @@ class Platform(XilinxPlatform):
     def __init__(self):
         XilinxPlatform.__init__(self, "xc7z010-clg400-1", _io,  _connectors, toolchain="vivado")
         self.add_extension(_ps7_io)
-        # self.add_extension(_usb_uart_pmod_io)
+        self.add_extension(_uart_io)
 
     def create_programmer(self):
         return VivadoProgrammer()

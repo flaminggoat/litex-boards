@@ -11,7 +11,7 @@ import argparse
 
 from migen import *
 
-from litex_boards.platforms import zybo_z7
+from litex_boards.platforms import ebaz4205_z7
 from litex.build.xilinx.vivado import vivado_build_args, vivado_build_argdict
 
 from litex.soc.interconnect import axi
@@ -45,13 +45,13 @@ class _CRG(Module):
 
 class BaseSoC(SoCCore):
     def __init__(self, sys_clk_freq=int(100e6), **kwargs):
-        platform = zybo_z7.Platform()
+        platform = ebaz4205_z7.Platform()
 
-        if kwargs["uart_name"] == "serial": kwargs["uart_name"] = "usb_uart" # Use USB-UART Pmod on JB.
+        if kwargs["uart_name"] == "serial": kwargs["uart_name"] = "data1_uart" # Use DATA1 connector for UART
 
         # SoCCore ----------------------------------------------------------------------------------
         SoCCore.__init__(self, platform, sys_clk_freq,
-            ident          = "LiteX SoC on Zybo Z7",
+            ident          = "LiteX SoC on EBAZ4205",
             ident_version  = True,
             **kwargs)
 
@@ -81,7 +81,7 @@ class BaseSoC(SoCCore):
 # Build --------------------------------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="LiteX SoC on Zybo Z7")
+    parser = argparse.ArgumentParser(description="LiteX SoC on EBAZ4205")
     parser.add_argument("--build",        action="store_true", help="Build bitstream")
     parser.add_argument("--load",         action="store_true", help="Load bitstream")
     parser.add_argument("--sys-clk-freq", default=100e6,       help="System clock frequency (default: 100MHz)")
